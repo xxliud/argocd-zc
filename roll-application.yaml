@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-argo-rollout-application
+  namespace: argocd
+spec:
+  project: rollout
+
+  source:
+    repoURL: https://github.com/xxliud/argocd-zc.git
+    targetRevision: main
+    path: rollout
+  destination: 
+    server: https://kubernetes.default.svc
+    namespace: myapp2
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+    automated:
+      selfHeal: true
+      prune: true
